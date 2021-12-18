@@ -2,28 +2,28 @@ package controller;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import model.Player;
+import model.Actor;
 
 public class PlayerController extends InputAdapter {
-    private Player player;
+    private Actor actor;
 
-    public PlayerController(Player p){
-        this.player = p;
+    public PlayerController(Actor p){
+        this.actor = p;
     }
 
     public boolean keyDown(int keycode){
         if(keycode == Input.Keys.UP){
-            player.move(0,1);
+            actor.move(0,1);
         }
         if(keycode == Input.Keys.DOWN){
-            player.move(0,-1);
+            actor.move(0,-1);
         }
         if(keycode == Input.Keys.LEFT){
-            player.move(-1,0);
+            actor.move(-1,0);
 
         }
         if(keycode == Input.Keys.RIGHT){
-            player.move(1,0);
+            actor.move(1,0);
         }
 
         return false;
