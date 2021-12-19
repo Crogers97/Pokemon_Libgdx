@@ -8,12 +8,15 @@ import com.mygdx.game.desktop.Pokemon;
 import com.mygdx.game.desktop.Settings;
 import controller.PlayerController;
 import model.Actor;
+import model.Camera;
 import model.TERRAIN;
 import model.TileMap;
 
 public class GameScreen extends AbstractScreen {
 
     private PlayerController controller;
+
+    private Camera camera;
 
     private Actor player;
     private TileMap map;
@@ -37,6 +40,8 @@ public class GameScreen extends AbstractScreen {
 
         player = new Actor(map,0,0);
 
+        camera = new Camera();
+
         controller = new PlayerController(player);
     }
 
@@ -50,7 +55,12 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
 
+        camera.update(player.getX()+0.5f, player.getY()+0.5f);
+
         batch.begin();
+
+        float worldStartX = Gdx.graphics.getWidth()/2 - camera.getCameraX()* Settings.SCALED_TILE_SIZE;
+        float worldStartY = Gdx.graphics.getHeight()/2 - camera.getCameraY()* Settings.SCALED_TILE_SIZE;
 
         for(int x = 0; x < map.getWidth(); x++){
             for(int y=0; y< map.getHeight(); y++) {
@@ -63,16 +73,16 @@ public class GameScreen extends AbstractScreen {
                     render = grass2;
                 }
                 batch.draw(render,
-                        x*Settings.SCALED_TILE_SIZE,
-                        y*Settings.SCALED_TILE_SIZE,
+                        worldStartX+x*Settings.SCALED_TILE_SIZE,
+                        worldStartY+y*Settings.SCALED_TILE_SIZE,
                         Settings.SCALED_TILE_SIZE,
                         Settings.SCALED_TILE_SIZE);
             }
 
         }
         batch.draw(standingSouth,
-                player.getX()* Settings.SCALED_TILE_SIZE,
-                player.getY()*Settings.SCALED_TILE_SIZE,
+                worldStartX+player.getX()* Settings.SCALED_TILE_SIZE,
+                worldStartY+player.getY()*Settings.SCALED_TILE_SIZE,
                 Settings.SCALED_TILE_SIZE,
                 Settings.SCALED_TILE_SIZE);
         batch.end();
